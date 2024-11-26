@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StatusBar, View, Text, Button, StyleSheet, ScrollView } from 'react-native';
 import { ThemeProvider, DarkTheme, DefaultTheme } from '@react-navigation/native';
-import { useColorScheme } from '@/hooks/useColorScheme'; // Custom hook for color scheme
+import { useColorScheme } from '@/hooks/useColorScheme'; 
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import SignUp from './sign-up';
@@ -14,19 +14,19 @@ export default function HomeScreen() {
   });
 
   const [isReady, setIsReady] = useState(false);
-  const [showSignup, setShowSignup] = useState(false); // State to toggle Signup form visibility
+  const [showSignup, setShowSignup] = useState(false); 
 
-  const colorScheme = useColorScheme(); // Get current theme (dark or light)
+  const colorScheme = useColorScheme(); 
 
   useEffect(() => {
     if (loaded) {
       SplashScreen.hideAsync();
-      setIsReady(true); // Set the layout as ready
+      setIsReady(true); 
     }
   }, [loaded]);
 
   if (!isReady) {
-    return null; // Don't render until fonts are loaded
+    return null;
   }
 
   return (

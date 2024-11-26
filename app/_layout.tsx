@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { ThemeProvider, DarkTheme, DefaultTheme } from '@react-navigation/native';
-import { useColorScheme } from '@/hooks/useColorScheme'; // Custom hook for color scheme
+import { useColorScheme } from '@/hooks/useColorScheme'; 
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
-import HomeScreen from './HomeScreen'; // Import HomeScreen
+import HomeScreen from './HomeScreen'; 
 
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme(); // Get current theme (dark or light)
+  const colorScheme = useColorScheme(); 
   const [loaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
   });
@@ -19,12 +19,12 @@ export default function RootLayout() {
   useEffect(() => {
     if (loaded) {
       SplashScreen.hideAsync();
-      setIsReady(true); // Set the layout as ready
+      setIsReady(true); 
     }
   }, [loaded]);
 
   if (!isReady) {
-    return null; // Don't render until fonts are loaded
+    return null; 
   }
 
   return (

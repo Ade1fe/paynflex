@@ -3,22 +3,22 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet,TouchableOpacity } from 'react-native';
 
 const SignUp = () => {
-  const [activeTab, setActiveTab] = useState('signUp'); // Default active tab
+  const [activeTab, setActiveTab] = useState('signUp'); 
 
-  // Sign Up form fields
+
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [referralCode, setReferralCode] = useState('');
 
-  // Handle form submission
+
   const handleSubmit = () => {
     console.log({ firstName, lastName, phoneNumber, referralCode });
   };
 
   return (
     <View style={styles.container}>
-      {/* Tab Navigation */}
+   
       <View style={styles.tabs}>
         <TouchableOpacity
           style={[styles.tab, activeTab === 'signUp' && styles.activeTab]}
@@ -35,7 +35,7 @@ const SignUp = () => {
         </TouchableOpacity>
       </View>
 
-      {/* Form based on active tab */}
+     
       {activeTab === 'signUp' ? (
         <View style={styles.form}>
           <View style={styles.inputContainer}>
@@ -68,7 +68,7 @@ const SignUp = () => {
       value={phoneNumber}
       onChangeText={setPhoneNumber}
       keyboardType="phone-pad"
-      maxLength={10}  // Optional: Limit input length for local number
+      maxLength={10} 
     />
   </View>
 </View>
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   activeTabText: {
-    color: '#000', // Active tab text color
+    color: '#000', 
   },
   form: {
     width: '100%',
@@ -170,11 +170,11 @@ const styles = StyleSheet.create({
   },
   phoneInputContainer: {
     flexDirection: 'row', 
-    alignItems: 'center', // Ensures country code and input align vertically
+    alignItems: 'center', 
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 8,
-    overflow: "hidden", // Prevents overflow for child elements
+    overflow: "hidden", 
   },
   countryCode: {
     fontSize: 12,
@@ -188,11 +188,11 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 8,
   },
   phoneInput: {
-    flex: 1, // Fills remaining space within the container
+    flex: 1, 
     fontSize: 12,
     color: '#333',
     padding: 10,
-    backgroundColor: '#fff', // Ensures the white background
+    backgroundColor: '#fff', 
     borderTopRightRadius: 8,
     borderBottomRightRadius: 8,
     fontWeight: '300',
