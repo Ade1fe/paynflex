@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { StatusBar, View, Text, Button, StyleSheet, ScrollView } from 'react-native';
+import { StatusBar, ScrollView, StyleSheet, Image } from 'react-native';
 import { ThemeProvider, DarkTheme, DefaultTheme } from '@react-navigation/native';
-import { useColorScheme } from '@/hooks/useColorScheme'; 
+import { useColorScheme } from '@/hooks/useColorScheme';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import SignUp from './sign-up';
@@ -14,14 +14,12 @@ export default function HomeScreen() {
   });
 
   const [isReady, setIsReady] = useState(false);
-  const [showSignup, setShowSignup] = useState(false); 
-
-  const colorScheme = useColorScheme(); 
+  const colorScheme = useColorScheme();
 
   useEffect(() => {
     if (loaded) {
       SplashScreen.hideAsync();
-      setIsReady(true); 
+      setIsReady(true);
     }
   }, [loaded]);
 
@@ -32,16 +30,13 @@ export default function HomeScreen() {
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <ScrollView contentContainerStyle={styles.container}>
-        {showSignup ? (
-          <SignUp />
-        ) : (
-          <View style={styles.content}>
-            <Text style={styles.heading}>Welcome to payNflex</Text>
-            <Button title="Sign Up" onPress={() => setShowSignup(true)} color="#6200ea" />
-          </View>
-        )}
+      <Image 
+          source={require('../assets/images/paynflex-text.png')} 
+          style={styles.image} 
+        />
+        <SignUp />
       </ScrollView>
-      <StatusBar  />
+      <StatusBar />
     </ThemeProvider>
   );
 }
@@ -52,15 +47,27 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 16,
+    backgroundColor: '#0F40D3',
   },
-  content: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  heading: {
-    fontSize: 24,
-    fontFamily: 'SpaceMono',
-    fontWeight: 'bold',
-    marginBottom: 20,
+  image: {
+    width: 150,
+    height: 37, 
+    marginBottom: 30,
+    resizeMode: 'contain', 
   },
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
