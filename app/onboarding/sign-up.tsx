@@ -24,7 +24,7 @@ const SignUp = () => {
   const handleSubmit = () => {
     if (isFormValid) {
       console.log({ firstName, lastName, phoneNumber, referralCode });
-      router.push('/profile')
+      router.push('/otp')
     } else {
      
       console.log('Please fill all the fields');
