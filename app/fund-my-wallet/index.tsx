@@ -1,115 +1,95 @@
-// /Users/damilolaadisa/Documents/paynflex/app/fund-my-wallet/Homepage.tsx
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, FlatList, Image } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
+import Balance from '@/components/ui/Balance';
+import FundWalletModal from '@/components/ui/FundWalletModal';
+import Greeting from '@/components/ui/Greeting';
+import Services from '@/components/ui/Services';
+import { MaterialIcons } from '@expo/vector-icons';
 
-const transactions = [
-  { id: '1', title: 'Grocery Shopping', amount: '-₦5,000', date: 'Nov 26, 2024' },
-  { id: '2', title: 'Salary', amount: '+₦150,000', date: 'Nov 25, 2024' },
-  { id: '3', title: 'Transfer to Alex', amount: '-₦10,000', date: 'Nov 24, 2024' },
-];
+const { width } = Dimensions.get('window'); 
 
-export default function Homepage() {
-  const name = "Damilola";
+const Homepage: React.FC = () => {
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
-  return (
-    <View style={styles.container}>
-   
-      <View style={styles.greetingContainer}>
-        <View >
-        <Text style={styles.greetingText}>Hello {name},</Text>
-          <View style={styles.greetingLeft}>
-         
-            <Text style={styles.greetingSubText}>Good Morning</Text>
-            <Ionicons name="sunny-outline" size={24} color="#FFD700" />
-          </View>
-          
-        </View>
-        <Image
-            source={require('../../assets/images/adaptive-icon.png')} 
-            style={styles.peopleIcon}
-          />
-      
+ 
+  const recentTransactions = [
+    { id: '1', image: 'https://via.placeholder.com/50', title: 'Netflix', amount: '₦4,400', type: 'Subscription' },
+    { id: '2', image: 'https://via.placeholder.com/50', title: 'Amazon', amount: '₦120,000', type: 'Subscription' },
+    { id: '3', image: 'https://via.placeholder.com/50', title: 'Udemy', amount: '₦25,650', type: 'Purchase' },
+    { id: '4', image: 'https://via.placeholder.com/50', title: 'Facebook', amount: '₦34,231', type: 'Purchase' },
+    { id: '5', image: 'https://via.placeholder.com/50', title: 'Google', amount: '₦1,349', type: 'Purchase' },
+    { id: '6', image: 'https://via.placeholder.com/50', title: 'Apple', amount: '₦20,000', type: 'Subscription' },
+    { id: '7', image: 'https://via.placeholder.com/50', title: 'Spotify', amount: '₦1,000', type: 'Subscription' },
+  ];
+
+  const handleFundWallet = () => {
+    setIsModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setIsModalVisible(false);
+  };
+
+  const renderRecentTransactionItem = ({ item }: { item: any }) => (
+    <View style={styles.recentTransactionItem}>
+      <Image source={{ uri: item.image }} style={styles.itemImage} />
+      <View style={styles.transactionDetails}>
+        <Text style={styles.userName}>{item.name}</Text>
+        <Text style={styles.transactionTitle}>{item.title}</Text>
+        <Text style={styles.transactionType}>{item.type}</Text>
       </View>
-
-     
-      <View style={styles.balanceContainer}>
-        <Text style={styles.balanceTitle}>Total Balance</Text>
-        <Text style={styles.balanceAmount}>₦366,728.82</Text>
-      </View>
-
-     
-      <View style={styles.transactionsHeader}>
-        <Text style={styles.sectionTitle}>Popular Transactions</Text>
-        <TouchableOpacity>
-          <Text style={styles.showMoreText}>Show More</Text>
-        </TouchableOpacity>
-      </View>
-      <FlatList
-        data={transactions}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <View style={styles.transactionItem}>
-            <Text style={styles.transactionTitle}>{item.title}</Text>
-            <View style={styles.transactionDetails}>
-              <Text style={styles.transactionAmount}>{item.amount}</Text>
-              <Text style={styles.transactionDate}>{item.date}</Text>
-            </View>
-          </View>
-        )}
-      />
+      <Text style={styles.transactionAmount}>{item.amount}</Text>
     </View>
   );
-}
+
+  return (
+    <ScrollView contentContainerStyle={styles.container}>
+      
+      <Greeting name="Chike" />
+      <Balance totalBalance="₦343,850.00" onFundWallet={handleFundWallet} />
+      <Services />
+
+     
+      <View style={styles.recentTransactionsContainer}>
+        <View style={styles.transactionsHeader}>
+          <Text style={styles.sectionTitle}>Recent Transactions</Text>
+          <TouchableOpacity>
+            <View style={styles.greetingLeft}>
+              <Text style={styles.showMoreText}>Show More</Text>
+              <MaterialIcons name="keyboard-arrow-down" size={24} color="#000" />
+            </View>
+          </TouchableOpacity>
+        </View>
+
+        
+        <FlatList
+          data={recentTransactions}
+          keyExtractor={(item) => item.id}
+          renderItem={renderRecentTransactionItem}
+          contentContainerStyle={styles.recentTransactionList}
+        />
+      </View>
+
+    
+      <FundWalletModal visible={isModalVisible} onClose={closeModal} />
+    </ScrollView>
+  );
+};
+
+export default Homepage;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    padding: 16,
-    paddingTop: 40,
-    width: "100%",
-    backgroundColor: '#F5F7FF',
-  },
-  greetingContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: 20,
+    flexGrow: 1,
+    backgroundColor: '#F5F5F5',
+    padding: 20,
+    width: width * 0.99, 
+    alignSelf: 'center', 
   },
   greetingLeft: {
+    marginTop: 5,
     flexDirection: 'row',
     alignItems: 'center',
-  },
-  peopleIcon: {
-    width: 40,
-    height: 40,
-    marginRight: 10,
-  },
-  greetingText: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#333',
-  },
-  greetingSubText: {
-    fontSize: 14,
-    color: '#666',
-  },
-  balanceContainer: {
-    backgroundColor: '#0F40D3',
-    padding: 20,
-    borderRadius: 10,
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  balanceTitle: {
-    fontSize: 16,
-    color: '#fff',
-    marginBottom: 5,
-  },
-  balanceAmount: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#fff',
   },
   transactionsHeader: {
     flexDirection: 'row',
@@ -120,41 +100,107 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#333',
+    color: '#000000',
   },
   showMoreText: {
     fontSize: 14,
-    color: '#0F40D3',
-    fontWeight: '500',
+    color: '#4B4D52',
+    fontWeight: '400',
   },
-  transactionItem: {
+  recentTransactionsContainer: {
+    marginVertical: 20,
+  },
+  // recentTransactionsTitle: {
+  //   fontSize: 18,
+  //   fontWeight: 'bold',
+  //   marginBottom: 10,
+  // },
+  recentTransactionList: {
+    // paddingHorizontal: 10,
+  },
+  // recentTransactionItem: {
+  //   flexDirection: 'row',
+  //   alignItems: 'center',
+  //   backgroundColor: 'red',
+  //   padding: 10,
+  //   marginBottom: 10,
+  //   borderRadius: 8,
+  //   shadowColor: '#000',
+  //   shadowOpacity: 0.1,
+  //   shadowOffset: { width: 0, height: 2 },
+  //   shadowRadius: 5,
+  //   elevation: 3,
+  // },
+  // itemImage: {
+  //   width: 50,
+  //   height: 50,
+  //   borderRadius: 25,
+  //   marginRight: 10,
+  // },
+  // transactionDetails: {
+  // marginRight: 10,
+  //   width: 50, 
+  //   backgroundColor: "green",
+  // },
+  // userName: {
+  //   fontSize: 16,
+  //   fontWeight: 'bold',
+  // },
+  // transactionTitle: {
+  //   fontSize: 14,
+  //   color: '#555',
+  // },
+  // transactionAmount: {
+  //   fontSize: 14,
+  //   color: 'green',
+  // },
+  // transactionType: {
+  //   fontSize: 12,
+  //   color: '#777',
+  // },
+  recentTransactionItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
     backgroundColor: '#fff',
-    padding: 16,
-    borderRadius: 8,
+    padding: 10,
     marginBottom: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
-    elevation: 3,
+    width: '100%',
+    // borderRadius: 8,
+    // shadowColor: '#000',
+    // shadowOpacity: 0.1,
+    // shadowOffset: { width: 0, height: 2 },
+    // shadowRadius: 5,
+    // elevation: 3,
   },
-  transactionTitle: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: '#333',
+  itemImage: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    marginRight: 10,
   },
   transactionDetails: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 5,
+    flex: 1, // Expands to take available space
+    marginRight: 10,
+    // backgroundColor: 'green', // Temporary color for testing
+    // padding: 5, // Optional: Add padding for spacing
+    // borderRadius: 5, // Optional: Rounded corners
+  },
+  userName: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#000',
+  },
+  transactionTitle: {
+    fontSize: 14,
+    color: '#555',
+  },
+  transactionType: {
+    fontSize: 12,
+    color: '#777',
   },
   transactionAmount: {
     fontSize: 14,
-    fontWeight: '600',
-    color: '#0F40D3',
-  },
-  transactionDate: {
-    fontSize: 12,
-    color: '#999',
+    color: 'green',
+    fontWeight: 'bold',
   },
 });

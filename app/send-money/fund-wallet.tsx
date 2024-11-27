@@ -1,8 +1,11 @@
+
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Modal } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Modal, Platform, Dimensions } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
-import { Ionicons,MaterialIcons ,AntDesign} from '@expo/vector-icons';
+import { Ionicons, MaterialIcons, AntDesign } from '@expo/vector-icons';
 import { BlurView } from 'expo-blur';
+
+const { width, height } = Dimensions.get('window');
 
 const SendFundsScreen: React.FC = () => {
   const [bank, setBank] = useState('');
@@ -28,25 +31,22 @@ const SendFundsScreen: React.FC = () => {
 
   return (
     <View style={styles.wrapper}>
-      
       <TouchableOpacity style={styles.backIcon}>
         <Ionicons name="arrow-back" size={24} color="#fff" />
       </TouchableOpacity>
 
-      {/*   <Text style={[styles.header, { fontFamily: 'BricolageGrotesque' }]}>Send Funds</Text> */}
       <View style={styles.headerSection}>
-        <Text style={[styles.header]}>Send Funds</Text>
-        <Text style={[styles.subHeader,]}>Enter account details to send money</Text>
+        <Text style={styles.header}>Send Funds</Text>
+        <Text style={styles.subHeader}>Enter account details to send money</Text>
       </View>
 
-     
       <View style={styles.container}>
         <Text style={styles.label}>Bank Name</Text>
         <View style={styles.pickerWrapper}>
           <Picker
             selectedValue={bank}
             onValueChange={(value) => setBank(value)}
-            style={[styles.picker , { fontFamily: 'BricolageGrotesque' }]} 
+            style={styles.picker}
           >
             <Picker.Item label="Select bank" value="" />
             <Picker.Item label="Bank A" value="Bank A" />
@@ -55,7 +55,6 @@ const SendFundsScreen: React.FC = () => {
           </Picker>
         </View>
 
-       
         <View style={styles.inputContainer}>
           <Text style={styles.label}>Account Number</Text>
           <TextInput
@@ -67,7 +66,6 @@ const SendFundsScreen: React.FC = () => {
           />
         </View>
 
-       
         <View style={styles.inputContainer}>
           <Text style={styles.label}>Account Name</Text>
           <TextInput
@@ -78,7 +76,6 @@ const SendFundsScreen: React.FC = () => {
           />
         </View>
 
-       
         <View style={styles.inputContainer}>
           <Text style={styles.label}>Amount</Text>
           <TextInput
@@ -90,7 +87,6 @@ const SendFundsScreen: React.FC = () => {
           />
         </View>
 
-        
         <TouchableOpacity
           style={[styles.button, { backgroundColor: isFormValid ? '#0F40D3' : '#ccc' }]}
           onPress={handleSubmit}
@@ -100,77 +96,73 @@ const SendFundsScreen: React.FC = () => {
         </TouchableOpacity>
       </View>
 
-   
       <Modal
         visible={isModalVisible}
         transparent
-        animationType="slide"
+        animationType="fade"
         onRequestClose={() => setIsModalVisible(false)}
       >
-        <BlurView intensity={100} style={styles.modalOverlay}>
-          <View style={styles.modalContainer}>
-            <Text style={styles.modalTitle}>TRANSFER SUCCESSFUL</Text>
-            <Text style={styles.modalAmount}>{`₦${parseFloat(amount).toLocaleString()}`}</Text>
-            <Text style={styles.modalText}>SENT TO</Text>
-            <Text style={styles.modalRecipient}>{accountName}</Text>
+        <View style={styles.modalOverlay}>
+          <BlurView intensity={80} tint="dark" style={StyleSheet.absoluteFill}>
+            <View style={styles.modalCenteredView}>
+              <View style={styles.modalContainer}>
+                <Text style={styles.modalTitle}>TRANSFER SUCCESSFUL</Text>
+                <Text style={styles.modalAmount}>{`₦${parseFloat(amount).toLocaleString()}`}</Text>
+                <Text style={styles.modalText}>SENT TO</Text>
+                <Text style={styles.modalRecipient}>{accountName}</Text>
 
-          
-            <TouchableOpacity
-              style={styles.cancelButton}
-              onPress={() => setIsModalVisible(false)}
-            >
-              <Ionicons name="close" size={16} color="#000" />
-            </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.cancelButton}
+                  onPress={() => setIsModalVisible(false)}
+                >
+                  <Ionicons name="close" size={16} color="#000" />
+                </TouchableOpacity>
 
-            <View style={styles.modalButtonContainer}>
-             
-              <TouchableOpacity
-                style={styles.modalButton}
-                onPress={() => {
-                  setIsModalVisible(false);
-                  Alert.alert('Receipt downloaded!');
-                }}
-              >
-                <View style={styles.buttonContent}>
-                  <MaterialIcons name="download" size={24} color="#000" />
-                  <Text style={styles.modalButtonText}>Download Receipt</Text>
+                <View style={styles.modalButtonContainer}>
+                  <TouchableOpacity
+                    style={styles.modalButton}
+                    onPress={() => {
+                      setIsModalVisible(false);
+                      Alert.alert('Receipt downloaded!');
+                    }}
+                  >
+                    <View style={styles.buttonContent}>
+                      <MaterialIcons name="download" size={24} color="#000" />
+                      <Text style={styles.modalButtonText}>Download Receipt</Text>
+                    </View>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    style={[styles.modalButton, styles.shareButton]}
+                    onPress={() => {
+                      setIsModalVisible(false);
+                      Alert.alert('Receipt shared!');
+                    }}
+                  >
+                    <View style={styles.buttonContent}>
+                      <AntDesign name="sharealt" size={24} color="#0F40D3BF" />
+                      <Text style={[styles.modalButtonText, { color: '#0F40D3' }]}>
+                        Share Receipt
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
                 </View>
-              </TouchableOpacity>
-
-              
-              <TouchableOpacity
-                style={[styles.modalButton, styles.shareButton]}
-                onPress={() => {
-                  setIsModalVisible(false);
-                  Alert.alert('Receipt shared!');
-                }}
-              >
-                <View style={styles.buttonContent}>
-                <AntDesign name="sharealt" size={24} color="#0F40D3BF" />
-                  <Text style={[styles.modalButtonText, { color: '#0F40D3' }]}>
-                    Share Receipt
-                  </Text>
-                </View>
-              </TouchableOpacity>
+              </View>
             </View>
-          </View>
-        </BlurView>
+          </BlurView>
+        </View>
       </Modal>
     </View>
   );
 };
-
-export default SendFundsScreen;
 
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
     alignContent: 'center',
     justifyContent: 'center',
-    width: '100%',
+    width: '90%',
     backgroundColor: '#0F40D3',
-    // fontFamily: 'BricolageGrotesque' ,
-   
   },
   backIcon: {
     marginBottom: 50,
@@ -179,23 +171,20 @@ const styles = StyleSheet.create({
   headerSection: {
     paddingHorizontal: 20,
     marginBottom: 50,
-    fontFamily: 'BricolageGrotesque' ,
+    fontFamily: 'BricolageGrotesque',
   },
   header: {
     fontSize: 24,
-    fontFamily: 'BricolageGrotesque' ,
-    // fontWeight: "bold",
+    fontFamily: 'BricolageGrotesque',
     color: '#fff',
     marginBottom: 5,
     textAlign: 'left',
-    
   },
   subHeader: {
     fontSize: 16,
     color: '#fff',
     fontWeight: '400',
     textAlign: 'left',
-    // fontFamily: 'BricolageGrotesque' ,
   },
   container: {
     padding: 20,
@@ -252,14 +241,17 @@ const styles = StyleSheet.create({
   },
   modalOverlay: {
     flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)', 
+  },
+  modalCenteredView: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: 50,
   },
   modalContainer: {
-    width: 300,
+    width: width * 0.8,
     padding: 20,
-    backgroundColor: '#fff',
+    backgroundColor: Platform.OS === 'ios' ? 'rgba(255, 255, 255, 0.7)' : 'white',
     borderRadius: 10,
     alignItems: 'center',
     shadowColor: '#000',
@@ -276,9 +268,9 @@ const styles = StyleSheet.create({
   },
   modalAmount: {
     fontSize: 28,
-    fontWeight: 600,
+    fontWeight: '600',
     color: '#000', 
-    fontFamily: 'BricolageGrotesque' ,
+    fontFamily: 'BricolageGrotesque',
   },
   modalText: {
     fontSize: 14,
@@ -287,7 +279,8 @@ const styles = StyleSheet.create({
   modalRecipient: {
     fontSize: 16,
     fontWeight: '400',
-    marginBottom: 10, fontFamily: 'BricolageGrotesque' ,
+    marginBottom: 10,
+    fontFamily: 'BricolageGrotesque',
   },
   modalButtonContainer: {
     width: '100%',
@@ -316,7 +309,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 10,
     right: 10,
-    padding:5,
+    padding: 5,
     borderRadius: 50,
     backgroundColor: '#ddd',
   },
@@ -325,10 +318,7 @@ const styles = StyleSheet.create({
     borderColor: '#0F40D3BF',
     borderWidth: 1,
   },
-  
 });
 
-
-
-
+export default SendFundsScreen;
 
