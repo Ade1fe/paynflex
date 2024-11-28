@@ -1,4 +1,4 @@
-
+// app/send-money/fund-wallet.tsx
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Modal, Platform, Dimensions } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignContent: 'center',
     justifyContent: 'center',
-    width: '90%',
+    // width: '90%',
     backgroundColor: '#0F40D3',
   },
   backIcon: {
@@ -249,7 +249,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   modalContainer: {
-    width: width * 0.8,
+    // width: width * 0.8,
     padding: 20,
     backgroundColor: Platform.OS === 'ios' ? 'rgba(255, 255, 255, 0.7)' : 'white',
     borderRadius: 10,

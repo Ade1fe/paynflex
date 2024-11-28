@@ -11,7 +11,7 @@ import { useRecentTransactions } from '@/components/ui/useRecentTransactions';
 
 const { width } = Dimensions.get('window');
 
-const Homepage: React.FC = () => {
+const HomeScreen: React.FC = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const { recentTransactions, isLoading } = useRecentTransactions();
 
@@ -70,12 +70,12 @@ const Homepage: React.FC = () => {
   );
 };
 
-export default Homepage;
+export default HomeScreen;
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#F5F5F5',
-    padding: 20,
+    padding: 10,
     width: width * 0.99,
     alignSelf: 'center',
   },

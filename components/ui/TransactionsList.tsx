@@ -1,7 +1,7 @@
 import React from 'react';
 import { FlatList, View, Text, StyleSheet } from 'react-native';
 
-// Define the type for each transaction
+
 interface Transaction {
     id: string;
     title: string;
@@ -9,13 +9,13 @@ interface Transaction {
     date: string;
   }
   
-  // Define the props for the TransactionsList component
+
   interface TransactionsListProps {
     transactions: Transaction[];
   }
 
   
-// Use the Transaction type to define the prop type for TransactionsList
+
 const TransactionsList: React.FC<TransactionsListProps> = ({ transactions }) => {
   return (
     <FlatList

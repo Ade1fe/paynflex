@@ -1,27 +1,26 @@
+// // /Users/damilolaadisa/Documents/paynflex/app/index.tsx
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import { useRouter } from 'expo-router';
-import SendFundsScreen from './send-money/fund-wallet';
 import { useFonts } from 'expo-font';
-import Homepage from './fund-my-wallet';
+import BottomNavigation from './(tabs)/bottom-navigation';
 
 export default function HomeScreen() {
   const router = useRouter();
-
+  const { width, height } = Dimensions.get('window');
 
   const [fontsLoaded] = useFonts({
     'BricolageGrotesque': require('../assets/fonts/Bricolage_Grotesque/static/BricolageGrotesque_24pt_Condensed-Regular.ttf'),
     'SpaceMono': require('../assets/fonts/SpaceMono-Regular.ttf'),
   });
 
-
   if (!fontsLoaded) {
-    return <Text>Loading...</Text>;
+    return <Text>Loading... fonts</Text>;
   }
 
   return (
-    <View style={styles.container}>
-      <Homepage />
+    <View style={[styles.container, { paddingHorizontal: width * 0.0 }]}>
+      <BottomNavigation />
     </View>
   );
 }
@@ -29,15 +28,24 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#0F40D3',
+  },
+  content: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    // padding: 16,
-    backgroundColor: '#0F40D3',
   },
   title: {
     fontFamily: 'BricolageGrotesque',
-    fontSize: 24,
+    fontSize: Dimensions.get('window').width * 0.06, 
     color: '#fff',
     marginBottom: 20,
+    textAlign: 'center',
+  },
+  description: {
+    fontFamily: 'SpaceMono',
+    fontSize: Dimensions.get('window').width * 0.04, 
+    color: '#fff',
+    textAlign: 'center',
   },
 });
