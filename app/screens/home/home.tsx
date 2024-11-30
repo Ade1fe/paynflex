@@ -1,15 +1,24 @@
-// /Users/damilolaadisa/Documents/paynflex/app/fund-my-wallet/index.tsx
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity, Dimensions, ActivityIndicator } from 'react-native';
 import Balance from '@/components/ui/Balance';
 import FundWalletModal from '@/components/ui/FundWalletModal';
 import Greeting from '@/components/ui/Greeting';
-import Services from '@/app/Services';
+import Services from '@/app/screens/services/Services';
 import { MaterialIcons } from '@expo/vector-icons';
-import { useRecentTransactions } from '@/components/ui/useRecentTransactions';
-
+import { useRecentTransactions } from '@/hooks/useRecentTransactions';
+import { createStackNavigator } from '@react-navigation/stack';
+import AirtimeScreen from '../services/airtime/AirtimeScreen';
 
 const { width } = Dimensions.get('window');
+
+const Stack = createStackNavigator();
+
+// const FundMyWalletNavigator: React.FC = () => (
+//   <Stack.Navigator initialRouteName="Services">
+//     <Stack.Screen name="Services" component={Services} />
+//     <Stack.Screen name="AirtimeScreen" component={AirtimeScreen} />
+//   </Stack.Navigator>
+// );
 
 const HomeScreen: React.FC = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -47,7 +56,7 @@ const HomeScreen: React.FC = () => {
           <Services />
           <View style={styles.recentTransactionsContainer}>
             <View style={styles.transactionsHeader}>
-              <Text style={styles.sectionTitle}>Recent Transactions</Text>
+              <Text style={styles.sectionTitle}>Recents Transactions</Text>
               <TouchableOpacity>
                 <View style={styles.greetingLeft}>
                   <Text style={styles.showMoreText}>Show More</Text>
