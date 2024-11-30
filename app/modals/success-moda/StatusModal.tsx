@@ -5,67 +5,72 @@ import { Ionicons } from '@expo/vector-icons';
 import { MaterialIcons, AntDesign } from '@expo/vector-icons';
 
 interface StatusModalProps {
-  visible: boolean;
-  isSuccess: boolean;
-  phonenumber: string;
-  amount: string;
-  onClose: () => void;
-}
-
-const StatusModal: React.FC<StatusModalProps> = ({ visible, isSuccess, phonenumber, amount, onClose }) => {
-  return (
-    <Modal visible={visible} transparent animationType="fade" onRequestClose={onClose}>
-      <View style={styles.modalOverlay}>
-        <BlurView intensity={80} tint="dark" style={StyleSheet.absoluteFill}>
-          <View style={styles.modalCenteredView}>
-            <View style={styles.modalContainer}>
-              <Text style={styles.modalTitle}>
-                {isSuccess ? 'TRANSFER SUCCESSFUL' : 'TRANSFER FAILED'}
-              </Text>
-              <Text style={styles.modalAmount}>{`₦${parseFloat(amount).toLocaleString()}`}</Text>
-              <Text style={styles.modalText}>SENT TO</Text>
-              <Text style={styles.modalRecipient}>{phonenumber}</Text>
-
-              <TouchableOpacity style={styles.cancelButton} onPress={onClose}>
-                <Ionicons name="close" size={16} color="#000" />
-              </TouchableOpacity>
-
-              <View style={styles.modalButtonContainer}>
-                <TouchableOpacity
-                  style={styles.modalButton}
-                  onPress={() => {
-                    onClose();
-                    Alert.alert('Receipt downloaded!');
-                  }}
-                >
-                  <View style={styles.buttonContent}>
-                    <MaterialIcons name="download" size={24} color="#000" />
-                    <Text style={styles.modalButtonText}>Download Receipt</Text>
-                  </View>
+    visible: boolean;
+    isSuccess: boolean;
+    phonenumber: string;
+    amount: string;
+    source: string;  // Add source as a prop
+    onClose: () => void;
+  }
+  
+  const StatusModal: React.FC<StatusModalProps> = ({ visible, isSuccess, phonenumber, amount, source, onClose }) => {
+    const transactionType = source === 'Airtime' ? 'Airtime Recharge' : 'Data Recharge';
+    const transactionStatus = isSuccess ? 'Successful' : 'Failed';
+  
+    return (
+      <Modal visible={visible} transparent animationType="fade" onRequestClose={onClose}>
+        <View style={styles.modalOverlay}>
+          <BlurView intensity={80} tint="dark" style={StyleSheet.absoluteFill}>
+            <View style={styles.modalCenteredView}>
+              <View style={styles.modalContainer}>
+                <Text style={styles.modalTitle}>
+                  {transactionType} {transactionStatus}
+                </Text>
+                <Text style={styles.modalAmount}>{`₦${parseFloat(amount).toLocaleString()}`}</Text>
+                <Text style={styles.modalText}>SENT TO</Text>
+                <Text style={styles.modalRecipient}>{phonenumber}</Text>
+  
+                <TouchableOpacity style={styles.cancelButton} onPress={onClose}>
+                  <Ionicons name="close" size={16} color="#000" />
                 </TouchableOpacity>
-
-                <TouchableOpacity
-                  style={[styles.modalButton, styles.shareButton]}
-                  onPress={() => {
-                    onClose();
-                    Alert.alert('Receipt shared!');
-                  }}
-                >
-                  <View style={styles.buttonContent}>
-                    <AntDesign name="sharealt" size={24} color="#0F40D3BF" />
-                    <Text style={[styles.modalButtonText, { color: '#0F40D3' }]}>
-                      Share Receipt
-                    </Text>
-                  </View>
-                </TouchableOpacity>
+  
+                <View style={styles.modalButtonContainer}>
+                  <TouchableOpacity
+                    style={styles.modalButton}
+                    onPress={() => {
+                      onClose();
+                      Alert.alert('Receipt downloaded!');
+                    }}
+                  >
+                    <View style={styles.buttonContent}>
+                      <MaterialIcons name="download" size={24} color="#000" />
+                      <Text style={styles.modalButtonText}>Download Receipt</Text>
+                    </View>
+                  </TouchableOpacity>
+  
+                  <TouchableOpacity
+                    style={[styles.modalButton, styles.shareButton]}
+                    onPress={() => {
+                      onClose();
+                      Alert.alert('Receipt shared!');
+                    }}
+                  >
+                    <View style={styles.buttonContent}>
+                      <AntDesign name="sharealt" size={24} color="#0F40D3BF" />
+                      <Text style={[styles.modalButtonText, { color: '#0F40D3' }]}>
+                        Share Receipt
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+                </View>
               </View>
             </View>
-          </View>
-        </BlurView>
-      </View>
-    </Modal>
-  );
-};
+          </BlurView>
+        </View>
+      </Modal>
+    );
+  };
+  
 
 const styles = StyleSheet.create({
   modalOverlay: {

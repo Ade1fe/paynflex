@@ -24,12 +24,13 @@ export default function AirtimeScreen() {
   const [provider, setProvider] = useState<Provider | null>(null); // Type the provider state
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isSuccess, setIsSuccess] = useState(true);
+  
 
-  // Provider images
+ 
   const providerImages: Record<Provider, any> = {
-    mtn: require('../../../../assets/images/image 27.png'),
-    airtel: require('../../../../assets/images/image 28.png'),
-    glo: require('../../../../assets/images/image 29.png'),
+    mtn: require('../../../../assets/images/image 29.png'),
+    airtel: require('../../../../assets/images/image 27.png'),
+    glo: require('../../../../assets/images/image 28.png'),
     '9mobile': require('../../../../assets/images/Frame 1340 (1).png'),
   };
 
@@ -38,9 +39,10 @@ export default function AirtimeScreen() {
 
   // Simulate transfer and show modal
   const handleContinue = () => {
-    // Navigate to the PinScreen for PIN entry
-    navigation.navigate('PinScreen', { phoneNumber, amount, provider });
+    // Navigate to the PinScreen for PIN entry and pass 'Airtime' as a parameter
+    navigation.navigate('PinScreen', { phoneNumber, amount, provider, source: 'Airtime' });
   };
+  
 
 
   
@@ -81,7 +83,7 @@ export default function AirtimeScreen() {
                   style={styles.providerImage}
                   accessibilityLabel={`${currentProvider} logo`}
                 />
-                <Text>{currentProvider}</Text>
+                <Text style={styles.texts}>{currentProvider}</Text>
               </TouchableOpacity>
             ))}
           </View>
@@ -191,6 +193,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 20,
+   
+  },
+  texts:{
+    textAlign: "center",
+    textTransform: "capitalize",
+    marginTop: 5,
+    fontWeight: 500,
+    fontSize: 12,
   },
   providerImage: {
     width: 60,
@@ -275,7 +285,8 @@ const styles = StyleSheet.create({
     height: 50,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 10,
+    borderRadius: 20,
+    marginTop: 70,
   },
   enabledButton: {
     backgroundColor: '#0F40D3',
